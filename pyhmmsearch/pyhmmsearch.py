@@ -8,7 +8,7 @@ from pyhmmer.easel import SequenceFile, TextSequence, Alphabet
 from pyhmmer import hmmsearch
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.4.25"
+__version__ = "2024.6.6"
 
 # Filter 
 def filter_hmmsearch_threshold(

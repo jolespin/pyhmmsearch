@@ -1,7 +1,20 @@
 # PyHMMSearch
 Fast implementation of [`HMMSearch`](https://github.com/EddyRivasLab/hmmer) optimized for high-memory systems using [`PyHmmer`](https://github.com/althonos/pyhmmer).  `PyHMMSearch` can handle fasta in uncompressed or gzip format and databases in either HMM or Python pickle serialized format.  No intermediate files are created. 
 
-#### Benchmarking
+### Installation:
+
+```
+pip install pyhmmsearch
+``` 
+
+### Dependencies: 
+
+* pyhmmer >=0.10.12
+* pandas
+* tqdm
+
+
+### Benchmarking:
 
 | Database | Tool            | Single Threaded | 12 Threads |
 |----------|-----------------|-----------------|------------|
@@ -14,6 +27,7 @@ Official benchmarking for `hmmsearch` algorithm implemented in `PyHMMER`  agains
 
 
 <img src="https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/bioinformatics/39/5/10.1093_bioinformatics_btad214/1/btad214f1.jpeg?Expires=1716479409&Signature=B-25mnmvqyodugkDRYrEN-LyPsuPGUyaJQK9cAunlZjzNOgBlPgKlLQD9FNzzo0TZAu3lTMwzPTjGVafUIXHaoFGaME3nMIiNVdG-8TPXz2KaHXaUEZUmZMFH1EZr93ofpZbpvEWAbDuv9HFsHWUitsXgtCLg4cNB86dtPSJXBwhuMZo-PQ0Z8gCYLKPRXsaYnOaMcw~utxxFVM~jt0p21RgnCElLK49-lqY3kipZwmEvmYThOKEbNYubgCdJphMwrF5R41mJWAy7PqqcpzCXJJ0WiEOwjkhd3SlPlOUlxpqrMrOb0ETYlnJVMZZp4Ny6Foga1NSZyo6xs-O~FNCOA__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA" alt="drawing" width="500"/>
+
 
 ### Usage:
 Recommended usage for `PyHMMSearch` is on systems with 1) high RAM;  2) large numbers of threads; and/or 3) reading/writing to disk is charged (e.g., AWS EFS).  Also useful when querying a large number of proteins. 
@@ -28,6 +42,22 @@ Recommended usage for `PyHMMSearch` is on systems with 1) high RAM;  2) large nu
 
     # Run PyHMMSearch
     pyhmmsearch.py -i test/test.faa.gz  -o output.tsv -b ${DATABASE_DIRECTORY}/Annotate/Pfam/Pfam-A.hmm.gz -p=-1
+    ```
+
+* #### Build a serialized database:
+
+    ```bash
+    # Provide a database
+    serialize_hmm_models.py -d path/to/Pfam-A.hmm.gz  -b path/to/database.pkl.gz
+
+    # or a directory of HMMs
+    serialize_hmm_models.py -d path/to/hmm_directory/  -b path/to/database.pkl.gz
+
+    # or from a list of filepaths to HMM models
+    serialize_hmm_models.py -l path/to/hmms.list  -b path/to/database.pkl.gz
+
+    # or form a list through stdin
+    echo "path/to/Pfam-A.hmm.gz" |  serialize_hmm_models.py -b path/to/database.pkl.gz
     ```
 
 * #### Using the serialized database files:

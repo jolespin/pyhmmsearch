@@ -28,6 +28,7 @@ setup(name='pyhmmsearch',
      scripts=[
          "pyhmmsearch/pyhmmsearch.py",
          "pyhmmsearch/reformat_pyhmmsearch.py",
+         "pyhmmsearch/serialize_hmm_models.py",
          ],
 
 )
