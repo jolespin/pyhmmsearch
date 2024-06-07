@@ -5,7 +5,7 @@ from tqdm import tqdm
 from pyhmmer.plan7 import HMMFile
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.6.7"
+__version__ = "2024.6.7.1"
 
 def stdin_is_empty():
     return sys.stdin.isatty()
