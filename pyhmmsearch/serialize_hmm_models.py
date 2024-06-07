@@ -5,7 +5,7 @@ from tqdm import tqdm
 from pyhmmer.plan7 import HMMFile
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.6.6"
+__version__ = "2024.6.7"
 
 def stdin_is_empty():
     return sys.stdin.isatty()
@@ -27,7 +27,7 @@ def main(args=None):
     parser_database = parser.add_argument_group('Database arguments')
     parser_database.add_argument("-l", "--hmm_list", default="stdin", type=str, help="path/to/hmm_database.  If it is a single file then it is interpreted as a multi-HMM database. If it's a directory, then it will be scanned for .hmm[.gz] files (Not case sensitive). Cannot be used with --hmm_database.")
     parser_database.add_argument("-d", "--hmm_database", type=str, help="path/to/hmm_database.  If it is a single file then it is interpreted as a multi-HMM database. If it's a directory, then it will be scanned for .hmm[.gz] files (Not case sensitive). Cannot be used with --hmm_list.")
-    parser_database.add_argument("-b", "--serialized_database", required=True, type=str, help="path/to/database.pkl[.gz]")
+    parser_database.add_argument("-b", "--serialized_database", required=True, type=str, help="path/to/database.pkl[.gz] is dictionary of HMM models")
     parser_database.add_argument("-f", "--hmm_marker_field", default="accession", type=str, help="HMM reference type (accession, name) [Default: accession]")
 
     opts = parser.parse_args()

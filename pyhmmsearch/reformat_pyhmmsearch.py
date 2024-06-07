@@ -5,7 +5,7 @@ from tqdm import tqdm
 import pandas as pd
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.6.6"
+__version__ = "2024.6.7"
 
 def main(args=None):
     # Path info

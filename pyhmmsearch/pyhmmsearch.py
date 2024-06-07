@@ -8,7 +8,7 @@ from pyhmmer.easel import SequenceFile, TextSequence, Alphabet
 from pyhmmer import hmmsearch
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.6.6"
+__version__ = "2024.6.7"
 
 # Filter 
 def filter_hmmsearch_threshold(
@@ -52,7 +52,7 @@ def main(args=None):
     parser_utility.add_argument("-p","--n_jobs", type=int, default=1,  help = "Number of threads to use [Default: 1]")
 
     parser_hmmsearch = parser.add_argument_group('HMMSearch arguments')
-    parser_hmmsearch.add_argument("-s", "--scores_cutoff", type=str, help="path/to/scores_cutoff.tsv [id_hmm]<tab>[score_threshold], No header.")
+    parser_hmmsearch.add_argument("-s", "--scores_cutoff", type=str, help="path/to/scores_cutoff.tsv[.gz] [id_hmm]<tab>[score_threshold], No header.")
     parser_hmmsearch.add_argument("-f", "--hmm_marker_field", default="accession", type=str, choices={"accession", "name"}, help="HMM reference type (accession, name) [Default: accession]")
     parser_hmmsearch.add_argument("-t", "--score_type",  default="full", type=str, help="{full, domain} [Default: full]")
     parser_hmmsearch.add_argument("-m", "--threshold_method", type=str, default="e",choices={"gathering", "noise", "trusted", "e"},  help="Cutoff threshold method [Default:  e]")
@@ -95,13 +95,19 @@ def main(args=None):
 
     if opts.scores_cutoff:
         name_to_threshold = dict()
-        with open(opts.scores_cutoff, "r") as f:
-            for line in f:
-                line = line.strip()
-                if line:
-                    name, threshold = line.split("\t")
-                    if name in name_to_hmm:
-                        name_to_threshold[name] = float(threshold)
+        if opts.scores_cutoff.endswith(".gz"):
+            f_cutoff = gzip.open(opts.scores_cutoff, "rt")
+        else:
+            f_cutoff = open(opts.scores_cutoff, "r")
+
+        for line in f_cutoff:
+            line = line.strip()
+            if line:
+                name, threshold = line.split("\t")
+                if name in name_to_hmm:
+                    name_to_threshold[name] = float(threshold)
+        f_cutoff.close()
+        
         A = set(name_to_hmm.keys())
         B = set(name_to_threshold.keys())
         assert A == B, "There are {} HMMs that do not have a score threshold".format(len(A - B))
