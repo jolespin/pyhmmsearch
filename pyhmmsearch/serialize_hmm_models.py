@@ -5,7 +5,7 @@ from tqdm import tqdm
 from pyhmmer.plan7 import HMMFile
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.6.8"
+__version__ = "2024.7.29"
 
 def stdin_is_empty():
     return sys.stdin.isatty()
@@ -41,7 +41,7 @@ def main(args=None):
         assert opts.hmm_list == "stdin", "Cannot provide --hmm_database and --hmm_list"
         assert stdin_is_empty(), "Cannot provide stdin if using --hmm_database"
         if os.path.isdir(opts.hmm_database):
-            for extension in [".hmm", ".hmm.gz", ".HMM", ".HMM.gz"]:
+            for extension in ["hmm", "hmm.gz", "HMM", "HMM.gz"]:
                 for fp in glob.glob(os.path.join(opts.hmm_database, f"*.{extension}")):
                     hmm_filepaths.append(fp)
         else:

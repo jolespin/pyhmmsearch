@@ -8,7 +8,7 @@ from pyhmmer.easel import SequenceFile, TextSequence, Alphabet
 from pyhmmer import hmmsearch
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.6.8"
+__version__ = "2024.7.29"
 
 # Filter 
 def filter_hmmsearch_threshold(
@@ -59,7 +59,7 @@ def main(args=None):
     parser_hmmsearch.add_argument("-e","--evalue", type=float, default=10.0,  help = "E-value threshold [Default: 10.0]")
 
     parser_database = parser.add_argument_group('Database arguments')
-    parser_database.add_argument("-d", "--hmm_database", type=str, help="path/to/database.hmm cannot be used with -b/-serialized_database")
+    parser_database.add_argument("-d", "--hmm_database", type=str, help="path/to/database.hmm cannot be used with -b/-serialized_database.  Expects a (concatenated) HMM file and not a directory. You can build a database from a directory using `serialize_hmm_models.py`")
     parser_database.add_argument("-b", "--serialized_database", type=str, help="path/to/database.pkl cannot be used with -d/--database_directory.  Database should be pickled dictionary {name:hmm}")
 
     # Options
@@ -83,7 +83,8 @@ def main(args=None):
         f.close()
 
     else:
-                
+        if os.path.isdir(opts.hmm_database):
+            raise IsADirectoryError("--hmm_database should be (concatenated) HMM file and not a directory.  You can build a database from a directory using `serialize_hmm_models.py`")
         # Load HMMs
         name_to_hmm = dict()
 
