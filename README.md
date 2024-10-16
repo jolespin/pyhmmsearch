@@ -58,7 +58,7 @@ Recommended usage for `PyHMMSearch` is on systems with 1) high RAM;  2) large nu
     serialize_hmm_models.py -l path/to/hmms.list  -b path/to/database.pkl.gz
 
     # or form a list through stdin
-    echo "path/to/Pfam-A.hmm.gz" |  serialize_hmm_models.py -b path/to/database.pkl.gz
+    ls path/to/directory/*.hmm |  serialize_hmm_models.py -b path/to/database.pkl.gz
     ```
 
 * #### Using the serialized database files:

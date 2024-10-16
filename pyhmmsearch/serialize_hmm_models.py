@@ -25,7 +25,7 @@ def main(args=None):
     parser = argparse.ArgumentParser(description=description, usage=usage, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
     # Pipeline
     parser_database = parser.add_argument_group('Database arguments')
-    parser_database.add_argument("-l", "--hmm_list", default="stdin", type=str, help="path/to/hmm_database.  If it is a single file then it is interpreted as a multi-HMM database. If it's a directory, then it will be scanned for .hmm[.gz] files (Not case sensitive). Cannot be used with --hmm_database.")
+    parser_database.add_argument("-l", "--hmm_list", default="stdin", type=str, help="List of filepaths to HMM files. Cannot be used with --hmm_database. [Default: stdin]")
     parser_database.add_argument("-d", "--hmm_database", type=str, help="path/to/hmm_database.  If it is a single file then it is interpreted as a multi-HMM database. If it's a directory, then it will be scanned for .hmm[.gz] files (Not case sensitive). Cannot be used with --hmm_list.")
     parser_database.add_argument("-b", "--serialized_database", required=True, type=str, help="path/to/database.pkl[.gz] is dictionary of HMM models")
     parser_database.add_argument("-f", "--hmm_marker_field", default="accession", type=str, help="HMM reference type (accession, name) [Default: accession]")
