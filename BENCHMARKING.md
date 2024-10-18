@@ -5,7 +5,7 @@
 #### 12 threads
 
 ```
-$ time python ../pyhmmsearch/pyhmmsearch.py -i test.faa -p 12 -o pyhmmsearch_cpu12.tsv -b /Users/jolespin/Databases/Pfam/database.pkl.gz -m gathering
+$ time python ../pyhmmsearch/pyhmmsearch -i test.faa -p 12 -o pyhmmsearch_cpu12.tsv -b /Users/jolespin/Databases/Pfam/database.pkl.gz -m gathering
 
 Loading serialized HMM database
 Performing HMMSearch: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20795/20795 [00:16<00:00, 1297.51it/s]
@@ -17,7 +17,7 @@ sys	0m2.842s
 
 #### Single thread
 ```
-$ time python ../pyhmmsearch/pyhmmsearch.py -i test.faa -p 1 -o pyhmmsearch.tsv -b /Users/jolespin/Databases/Pfam/database.pkl.gz -m gathering
+$ time python ../pyhmmsearch/pyhmmsearch -i test.faa -p 1 -o pyhmmsearch.tsv -b /Users/jolespin/Databases/Pfam/database.pkl.gz -m gathering
 
 Loading serialized HMM database
 Performing HMMSearch: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20795/20795 [02:20<00:00, 148.48it/s]
