@@ -87,7 +87,7 @@ Recommended usage for `PyHMMSearch` is on systems with 1) high RAM;  2) large nu
 $ pyhmmsearch -h
 usage: pyhmmsearch -i <proteins.fasta> -o <output.tsv> -d
 
-    Running: pyhmmsearch v2024.4.25 via Python v3.10.14 | /Users/jolespin/miniconda3/envs/kofamscan_env/bin/python
+    Running: pyhmmsearch v2025.1.23 via Python v3.10.15 | /Users/jolespin/miniconda3/envs/test_env/bin/python3.10
 
 options:
   -h, --help            show this help message and exit
@@ -98,6 +98,9 @@ I/O arguments:
   -o OUTPUT, --output OUTPUT
                         path/to/output.tsv [Default: stdout]
   --no_header           No header
+  --tblout TBLOUT       path/to/output.tblout
+  --domtblout DOMTBLOUT
+                        path/to/output.domtblout
 
 Utility arguments:
   -p N_JOBS, --n_jobs N_JOBS
@@ -105,23 +108,21 @@ Utility arguments:
 
 HMMSearch arguments:
   -s SCORES_CUTOFF, --scores_cutoff SCORES_CUTOFF
-                        path/to/scores_cutoff.tsv [id_hmm]<tab>[score_threshold], No header.
+                        path/to/scores_cutoff.tsv[.gz] [id_hmm]<tab>[score_threshold], No header.
   -f {accession,name}, --hmm_marker_field {accession,name}
                         HMM reference type (accession, name) [Default: accession]
-  -t SCORE_TYPE, --score_type SCORE_TYPE
+  -t {domain,full}, --score_type {domain,full}
                         {full, domain} [Default: full]
-  -m {gathering,noise,e,trusted}, --threshold_method {gathering,noise,e,trusted}
+  -m {e,gathering,noise,trusted}, --threshold_method {e,gathering,noise,trusted}
                         Cutoff threshold method [Default:  e]
   -e EVALUE, --evalue EVALUE
                         E-value threshold [Default: 10.0]
 
 Database arguments:
   -d HMM_DATABASE, --hmm_database HMM_DATABASE
-                        path/to/database.hmm cannot be used with -b/-serialized_database
+                        path/to/database.hmm cannot be used with -b/-serialized_database.  Expects a (concatenated) HMM file and not a directory. You can build a database from a directory using `serialize_hmm_models.py`
   -b SERIALIZED_DATABASE, --serialized_database SERIALIZED_DATABASE
                         path/to/database.pkl cannot be used with -d/--database_directory.  Database should be pickled dictionary {name:hmm}
-
-Copyright 2024 Josh L. Espinoza (jolespin@newatlantis.io)
 ```
 
 

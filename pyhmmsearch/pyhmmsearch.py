@@ -8,7 +8,7 @@ from pyhmmer.easel import SequenceFile, TextSequence, Alphabet
 from pyhmmer import hmmsearch
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.7.29"
+__version__ = "2025.1.23"
 
 # Filter 
 def filter_hmmsearch_threshold(
@@ -47,6 +47,8 @@ def main(args=None):
     parser_io.add_argument("-i","--proteins", type=str, default="stdin", help = "path/to/proteins.fasta. stdin does not stream and loads everything into memory. [Default: stdin]")
     parser_io.add_argument("-o","--output", type=str, default="stdout", help = "path/to/output.tsv [Default: stdout]")
     parser_io.add_argument("--no_header", action="store_true", help = "No header")
+    parser_io.add_argument("--tblout", type=str, help = "path/to/output.tblout")
+    parser_io.add_argument("--domtblout", type=str, help = "path/to/output.domtblout")
 
     parser_utility = parser.add_argument_group('Utility arguments')
     parser_utility.add_argument("-p","--n_jobs", type=int, default=1,  help = "Number of threads to use [Default: 1]")
@@ -54,7 +56,7 @@ def main(args=None):
     parser_hmmsearch = parser.add_argument_group('HMMSearch arguments')
     parser_hmmsearch.add_argument("-s", "--scores_cutoff", type=str, help="path/to/scores_cutoff.tsv[.gz] [id_hmm]<tab>[score_threshold], No header.")
     parser_hmmsearch.add_argument("-f", "--hmm_marker_field", default="accession", type=str, choices={"accession", "name"}, help="HMM reference type (accession, name) [Default: accession]")
-    parser_hmmsearch.add_argument("-t", "--score_type",  default="full", type=str, help="{full, domain} [Default: full]")
+    parser_hmmsearch.add_argument("-t", "--score_type",  default="full", type=str, choices = {"full", "domain"}, help="{full, domain} [Default: full]")
     parser_hmmsearch.add_argument("-m", "--threshold_method", type=str, default="e",choices={"gathering", "noise", "trusted", "e"},  help="Cutoff threshold method [Default:  e]")
     parser_hmmsearch.add_argument("-e","--evalue", type=float, default=10.0,  help = "E-value threshold [Default: 10.0]")
 
@@ -125,6 +127,27 @@ def main(args=None):
     if not opts.no_header:
         print("id_protein", "id_hmm", "threshold", "score", "bias", "best_domain-score", "best_domain-bias", "e-value", sep="\t", file=f_output)
 
+    # Optional outputs
+    f_tblout = None
+    tblout_header = True
+    if opts.tblout:
+        if opts.scores_cutoff:
+            raise Exception("Cannot use --tblout with -s/--scores_cutoff")
+        if opts.tblout.endswith(".gz"):
+            f_tblout = gzip.open(opts.tblout, "wb")
+        else:
+            f_tblout = open(opts.tblout, "wb")
+            
+    f_domtblout = None
+    domtblout_header = True
+    if opts.domtblout:
+        if opts.scores_cutoff:
+            raise Exception("Cannot use --domtblout with -s/--scores_cutoff")
+        if opts.domtblout.endswith(".gz"):
+            f_domtblout = gzip.open(opts.domtblout, "wb")
+        else:
+            f_domtblout = open(opts.domtblout, "wb")
+            
     # Input
     if opts.proteins == "stdin":
         from Bio.SeqIO.FastaIO import SimpleFastaParser
@@ -139,15 +162,19 @@ def main(args=None):
         with SequenceFile(opts.proteins, format="fasta", digital=True) as f:
             proteins = f.read_block()#sequences=opts.sequences_per_block)
 
+
+            
     # Run HMMSearch  
     params = {
         "E":opts.evalue,
     }
     if opts.threshold_method != "e":
         params["bit_cutoffs"] = opts.threshold_method
+        
 
     if opts.scores_cutoff:
         for id_hmm, hits in tqdm(zip(name_to_hmm.keys(), hmmsearch(name_to_hmm.values(), proteins, cpus=opts.n_jobs, **params)), desc="Performing HMMSearch", total=len(name_to_hmm)):
+            # hits_filtered = list()
             for hit in hits:
                 if hit.included:
                     result = filter_hmmsearch_threshold(
@@ -171,26 +198,43 @@ def main(args=None):
                         sep="\t", 
                         file=f_output,
                         )
+                        # hits_filtered.append(hit)
+            # if f_tblout:
+            #     hits_filtered.write(f_tblout, format="targets", header=True)
+            # if f_domtblout:
+            #     hits_filtered.write(f_domtblout, format="domains", header=True)
+
     else:
         if opts.threshold_method == "e":
             for id_hmm, hits in tqdm(zip(name_to_hmm.keys(), hmmsearch(name_to_hmm.values(), proteins, cpus=opts.n_jobs, **params)), desc="Performing HMMSearch", total=len(name_to_hmm)):
+                if f_tblout:
+                    hits.write(f_tblout, format="targets", header=tblout_header)
+                    tblout_header = False
+                if f_domtblout:
+                    hits.write(f_domtblout, format="domains", header=domtblout_header)
+                    domtblout_header = False
                 for hit in hits:
                     if hit.included:
-                            id_query = hit.name.decode()
-                            print(
-                                id_query, 
-                                id_hmm, 
-                                "", 
-                                "{:0.3f}".format(hit.score), 
-                                "{:0.3f}".format(hit.bias), 
-                                "{:0.3f}".format(hit.best_domain.score), 
-                                "{:0.3f}".format(hit.best_domain.bias), 
-                                "{:0.3e}".format(hit.evalue), 
-                            sep="\t", 
-                            file=f_output,
-                            )
+                        id_query = hit.name.decode()
+                        print(
+                            id_query, 
+                            id_hmm, 
+                            "", 
+                            "{:0.3f}".format(hit.score), 
+                            "{:0.3f}".format(hit.bias), 
+                            "{:0.3f}".format(hit.best_domain.score), 
+                            "{:0.3f}".format(hit.best_domain.bias), 
+                            "{:0.3e}".format(hit.evalue), 
+                        sep="\t", 
+                        file=f_output,
+                        )
+                        
         else:
             for id_hmm, hits in tqdm(zip(name_to_hmm.keys(), hmmsearch(name_to_hmm.values(), proteins, cpus=opts.n_jobs, **params)), desc="Performing HMMSearch", total=len(name_to_hmm)):
+                if f_tblout:
+                    hits.write(f_tblout, format="targets", header=True)
+                if f_domtblout:
+                    hits.write(f_domtblout, format="domains", header=True)
                 for hit in hits:
                     if hit.included:
                         id_query = hit.name.decode()
@@ -208,9 +252,15 @@ def main(args=None):
                         sep="\t", 
                         file=f_output,
                         )
+                        
 
+    # Close
     if f_output != sys.stdout:
         f_output.close()
+    if f_tblout:
+        f_tblout.close()
+    if f_domtblout:
+        f_domtblout.close()
 
 if __name__ == "__main__":
     main(sys.argv[1:])

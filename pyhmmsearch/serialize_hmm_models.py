@@ -5,7 +5,7 @@ from tqdm import tqdm
 from pyhmmer.plan7 import HMMFile
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2024.7.29"
+__version__ = "2025.1.23"
 
 def stdin_is_empty():
     return sys.stdin.isatty()
@@ -85,6 +85,7 @@ def main(args=None):
     # Output
     # ======
     # Write serialized database
+    print(f"Writing serialized HMMs: {opts.serialized_database}")
     if opts.serialized_database.endswith((".gz", ".pgz")):
         f_out = gzip.open(opts.serialized_database, "wb")
     else:
