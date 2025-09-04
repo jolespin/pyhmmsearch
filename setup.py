@@ -11,6 +11,10 @@ from setuptools import setup
 
 exec(open('pyhmmsearch/__init__.py').read())
 
+# Read requirements from requirements.txt
+with open("requirements.txt", "r") as f:
+    requirements = [line.strip() for line in f if line.strip() and not line.startswith('#')]
+    
 setup(
     name='pyhmmsearch',
     version=__version__,
@@ -20,12 +24,7 @@ setup(
     author_email='jolespin@newatlantis.io, jol.espinoz@gmail.com',
     license='MIT License',
     packages=["pyhmmsearch"],
-    install_requires=[
-        "pyhmmer >=0.10.12",
-        "pandas",
-        "tqdm",
-        "requests",  # Assuming API interaction may still be useful
-    ],
+    install_requires=requirements,
     include_package_data=False,
     entry_points={
         'console_scripts': [

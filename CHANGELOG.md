@@ -1,4 +1,5 @@
 #### Daily Change Log: 
+* [2025.9.4] - Added `biopython` to `requirements.txt`
 * [2025.1.23] - Added `--tblout` and `--domtblout` output arguments to main executable
 * [2024.10.18] - Uses entry points for executables instead of copying scripts to bin/
 * [2024.7.29] - Added `IsADirectoryError` if `--hmm_database` is a directory in `pyhmmsearch.py`
