@@ -8,7 +8,7 @@ from pyhmmer.easel import SequenceFile, TextSequence, Alphabet
 from pyhmmer import hmmsearch
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2025.9.4"
+__version__ = "2025.9.4.post1"
 
 # Filter 
 def filter_hmmsearch_threshold(
@@ -37,10 +37,11 @@ def main(args=None):
     description = """
     Running: {} v{} via Python v{} | {}""".format(__program__, __version__, sys.version.split(" ")[0], sys.executable)
     usage = "{} -i <proteins.fasta> -o <output.tsv> -d ".format(__program__)
-    epilog = "Copyright 2024 Josh L. Espinoza (jolespin@newatlantis.io)"
+    epilog = "PyHMMSearch"
 
     # Parser
     parser = argparse.ArgumentParser(description=description, usage=usage, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('-v', '--version', action='version', version=__version__)
 
     # Pipeline
     parser_io = parser.add_argument_group('I/O arguments')

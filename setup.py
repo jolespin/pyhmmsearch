@@ -21,7 +21,7 @@ setup(
     description='Fast implementation of HMMSEARCH optimized for high-memory systems using PyHmmer',
     url='https://github.com/jolespin/pyhmmsearch',
     author='Josh L. Espinoza',
-    author_email='jolespin@newatlantis.io, jol.espinoz@gmail.com',
+    author_email='jol.espinoz@gmail.com',
     license='MIT License',
     packages=["pyhmmsearch"],
     install_requires=requirements,
