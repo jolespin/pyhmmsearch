@@ -6,9 +6,11 @@ from tqdm import tqdm
 from pyhmmer.plan7 import HMMFile
 from pyhmmer.easel import SequenceFile, TextSequence, Alphabet
 from pyhmmer import hmmsearch
+from . import __version__
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2025.9.4.post1"
+# __version__ = "2025.9.5"
+
 
 # Filter 
 def filter_hmmsearch_threshold(

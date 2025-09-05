@@ -3,9 +3,10 @@ import sys, os, glob, gzip, warnings, argparse, pickle
 from collections import defaultdict
 from tqdm import tqdm
 from pyhmmer.plan7 import HMMFile
+from . import __version__
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2025.1.23"
+# __version__ = "2025.1.23"
 
 def stdin_is_empty():
     return sys.stdin.isatty()
@@ -23,6 +24,8 @@ def main(args=None):
 
     # Parser
     parser = argparse.ArgumentParser(description=description, usage=usage, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('-v', '--version', action='version', version=__version__)
+
     # Pipeline
     parser_database = parser.add_argument_group('Database arguments')
     parser_database.add_argument("-l", "--hmm_list", default="stdin", type=str, help="List of filepaths to HMM files. Cannot be used with --hmm_database. [Default: stdin]")

@@ -1,14 +1,6 @@
 from setuptools import setup
 
 # Version
-# version = None
-# with open("./pykofamsearch/__init__.py", "r") as f:
-#     for line in f.readlines():
-#         line = line.strip()
-#         if line.startswith("__version__"):
-#             version = line.split("=")[-1].strip().strip('"')
-# assert version is not None, "Check version in pykofamsearch/__init__.py"
-
 exec(open('pyhmmsearch/__init__.py').read())
 
 # Read requirements from requirements.txt
