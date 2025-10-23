@@ -1,4 +1,5 @@
 #### Daily Change Log: 
+* [2025.10.23] - Added `description` field to output
 * [2025.9.5] - Pinned `pyhmmer` version >=0.10.2,<0.11
 * [2025.9.4] - Added `biopython` to `requirements.txt`
 * [2025.1.23] - Added `--tblout` and `--domtblout` output arguments to main executable

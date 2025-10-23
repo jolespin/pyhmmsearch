@@ -3,6 +3,7 @@ import sys, os, glob, gzip, warnings, argparse, pickle
 from collections import defaultdict
 from multiprocessing import cpu_count
 from tqdm import tqdm
+import pandas as pd
 from pyhmmer.plan7 import HMMFile
 from pyhmmer.easel import SequenceFile, TextSequence, Alphabet
 from pyhmmer import hmmsearch
@@ -39,7 +40,7 @@ def main(args=None):
     description = """
     Running: {} v{} via Python v{} | {}""".format(__program__, __version__, sys.version.split(" ")[0], sys.executable)
     usage = "{} -i <proteins.fasta> -o <output.tsv> -d ".format(__program__)
-    epilog = "PyHMMSearch"
+    epilog = "https://github.com/jolespin/pyhmmsearch"
 
     # Parser
     parser = argparse.ArgumentParser(description=description, usage=usage, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
@@ -128,7 +129,7 @@ def main(args=None):
             f_output = open(opts.output, "w")
 
     if not opts.no_header:
-        print("id_protein", "id_hmm", "threshold", "score", "bias", "best_domain-score", "best_domain-bias", "e-value", sep="\t", file=f_output)
+        print("id_protein", "id_hmm", "threshold", "score", "bias", "best_domain-score", "best_domain-bias", "e-value", "description", sep="\t", file=f_output)
 
     # Optional outputs
     f_tblout = None
@@ -186,8 +187,16 @@ def main(args=None):
                         score_type=opts.score_type,
                         )
                     if result:
+                        # Query
                         id_query = hit.name.decode()
-
+                        # Description
+                        hmm = name_to_hmm[id_hmm]
+                        description = hmm.description
+                        if description is not None:
+                            description = description.decode('utf-8')
+                        else:
+                            description = pd.NA
+                        # Results
                         threshold, score, evalue = result
                         print(
                             id_query, 
@@ -198,6 +207,7 @@ def main(args=None):
                             "{:0.3f}".format(hit.best_domain.score), 
                             "{:0.3f}".format(hit.best_domain.bias), 
                             "{:0.3e}".format(evalue), 
+                            description,
                         sep="\t", 
                         file=f_output,
                         )
@@ -218,7 +228,15 @@ def main(args=None):
                     domtblout_header = False
                 for hit in hits:
                     if hit.included:
+                        # Query
                         id_query = hit.name.decode()
+                        # Description
+                        hmm = name_to_hmm[id_hmm]
+                        description = hmm.description
+                        if description is not None:
+                            description = description.decode('utf-8')
+                        else:
+                            description = pd.NA
                         print(
                             id_query, 
                             id_hmm, 
@@ -228,6 +246,7 @@ def main(args=None):
                             "{:0.3f}".format(hit.best_domain.score), 
                             "{:0.3f}".format(hit.best_domain.bias), 
                             "{:0.3e}".format(hit.evalue), 
+                            description,
                         sep="\t", 
                         file=f_output,
                         )
@@ -241,7 +260,13 @@ def main(args=None):
                 for hit in hits:
                     if hit.included:
                         id_query = hit.name.decode()
+                        # Description
                         hmm = name_to_hmm[id_hmm]
+                        description = hmm.description
+                        if description is not None:
+                            description = description.decode('utf-8')
+                        else:
+                            description = pd.NA
                         threshold = getattr(hmm.cutoffs, opts.threshold_method)
                         print(
                             id_query, 
@@ -252,6 +277,7 @@ def main(args=None):
                             "{:0.3f}".format(hit.best_domain.score), 
                             "{:0.3f}".format(hit.best_domain.bias), 
                             "{:0.3e}".format(hit.evalue), 
+                            description,
                         sep="\t", 
                         file=f_output,
                         )
