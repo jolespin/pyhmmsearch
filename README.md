@@ -85,44 +85,44 @@ Recommended usage for `PyHMMSearch` is on systems with 1) high RAM;  2) large nu
 
 ```
 $ pyhmmsearch -h
-usage: pyhmmsearch -i <proteins.fasta> -o <output.tsv> -d
+usage: pyhmmsearch -i <proteins.fasta> -o <output.tsv> -d 
 
-    Running: pyhmmsearch v2025.1.23 via Python v3.10.15 | /Users/jolespin/miniconda3/envs/test_env/bin/python3.10
+    Running: pyhmmsearch v2025.10.23 via Python v3.14.0 | /Users/jolespin/miniforge3/envs/annotate/bin/python3.14
 
 options:
   -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
 
 I/O arguments:
-  -i PROTEINS, --proteins PROTEINS
+  -i, --proteins PROTEINS
                         path/to/proteins.fasta. stdin does not stream and loads everything into memory. [Default: stdin]
-  -o OUTPUT, --output OUTPUT
-                        path/to/output.tsv [Default: stdout]
+  -o, --output OUTPUT   path/to/output.tsv [Default: stdout]
   --no_header           No header
   --tblout TBLOUT       path/to/output.tblout
   --domtblout DOMTBLOUT
                         path/to/output.domtblout
 
 Utility arguments:
-  -p N_JOBS, --n_jobs N_JOBS
-                        Number of threads to use [Default: 1]
+  -p, --n_jobs N_JOBS   Number of threads to use [Default: 1]
 
 HMMSearch arguments:
-  -s SCORES_CUTOFF, --scores_cutoff SCORES_CUTOFF
+  -s, --scores_cutoff SCORES_CUTOFF
                         path/to/scores_cutoff.tsv[.gz] [id_hmm]<tab>[score_threshold], No header.
-  -f {accession,name}, --hmm_marker_field {accession,name}
+  -f, --hmm_marker_field {accession,name}
                         HMM reference type (accession, name) [Default: accession]
-  -t {domain,full}, --score_type {domain,full}
+  -t, --score_type {domain,full}
                         {full, domain} [Default: full]
-  -m {e,gathering,noise,trusted}, --threshold_method {e,gathering,noise,trusted}
+  -m, --threshold_method {gathering,e,noise,trusted}
                         Cutoff threshold method [Default:  e]
-  -e EVALUE, --evalue EVALUE
-                        E-value threshold [Default: 10.0]
+  -e, --evalue EVALUE   E-value threshold [Default: 10.0]
 
 Database arguments:
-  -d HMM_DATABASE, --hmm_database HMM_DATABASE
+  -d, --hmm_database HMM_DATABASE
                         path/to/database.hmm cannot be used with -b/-serialized_database.  Expects a (concatenated) HMM file and not a directory. You can build a database from a directory using `serialize_hmm_models.py`
-  -b SERIALIZED_DATABASE, --serialized_database SERIALIZED_DATABASE
+  -b, --serialized_database SERIALIZED_DATABASE
                         path/to/database.pkl cannot be used with -d/--database_directory.  Database should be pickled dictionary {name:hmm}
+
+https://github.com/jolespin/pyhmmsearch
 ```
 
 
@@ -130,34 +130,34 @@ Database arguments:
 
 * From **pyhmmsearch**:
 
-    | id_protein                 | id_hmm     | threshold                                | score   | bias  | best_domain-score | best_domain-bias | e-value   |
-    |----------------------------|------------|------------------------------------------|---------|-------|-------------------|------------------|-----------|
-    | SRR13615825__k127_453760_1 | PF00389.34 | (24.600000381469727, 24.600000381469727) | 93.686  | 6.702 | 89.856            | 6.702            | 1.984e-27 |
-    | SRR13615825__k127_295655_1 | PF00389.34 | (24.600000381469727, 24.600000381469727) | 83.195  | 0.005 | 83.167            | 0.005            | 3.456e-24 |
-    | SRR13615825__k127_218710_3 | PF00389.34 | (24.600000381469727, 24.600000381469727) | 42.235  | 0.004 | 42.073            | 0.004            | 1.559e-11 |
-    | SRR13615825__k127_272080_1 | PF00389.34 | (24.600000381469727, 24.600000381469727) | 24.673  | 0.000 | 22.067            | 0.000            | 4.154e-06 |
-    | SRR13615825__k127_297426_1 | PF02826.23 | (25.100000381469727, 25.100000381469727) | 170.426 | 0.003 | 170.122           | 0.003            | 6.392e-51 |
+    | id_protein                 | id_hmm     | threshold | score | bias   | best_domain-score | best_domain-bias | e-value description                                             |
+    |----------------------------|------------|-----------|-------|--------|-------------------|------------------|-----------------------------------------------------------------|
+    | SRR13615825__k127_409025_2 | PF09847.13 | 13.460    | 0.609 | 13.226 | 0.609             | 8.249e-03        | Membrane protein of 12 TMs                                      |
+    | SRR13615825__k127_453760_1 | PF00389.34 | 93.686    | 6.702 | 89.856 | 6.702             | 1.984e-27        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
+    | SRR13615825__k127_295655_1 | PF00389.34 | 83.195    | 0.005 | 83.167 | 0.005             | 3.456e-24        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
+    | SRR13615825__k127_218710_3 | PF00389.34 | 42.235    | 0.004 | 42.073 | 0.004             | 1.559e-11        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
+    | SRR13615825__k127_272080_1 | PF00389.34 | 24.673    | 0.000 | 22.067 | 0.000             | 4.154e-06        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
 
 * From **reformat_pyhmmsearch**:
 
-    | id_protein                 | number_of_hits | ids                                        | evalues                          | scores                    |
-    |----------------------------|----------------|--------------------------------------------|----------------------------------|---------------------------|
-    | SRR13615825__k127_453760_1 | 3              | ['PF00389.34', 'PF02826.23', 'PF03446.19'] | [1.984e-27, 2.113e-39, 2.41e-08] | [93.686, 132.902, 32.336] |
-    | SRR13615825__k127_295655_1 | 2              | ['PF00389.34', 'PF02826.23']               | [3.456e-24, 7.794e-21]           | [83.195, 72.421]          |
-    | SRR13615825__k127_218710_3 | 1              | ['PF00389.34']                             | [1.559e-11]                      | [42.235]                  |
-    | SRR13615825__k127_272080_1 | 2              | ['PF00389.34', 'PF02826.23']               | [4.154e-06, 2.035e-41]           | [24.673, 139.471]         |
-    | SRR13615825__k127_297426_1 | 1              | ['PF02826.23']                             | [6.392e-51]                      | [170.426]                 |
+    | id_protein                 | number_of_hits | ids                                                      | evalues                                     | scores                            | descriptions                                                                                                                                                                                                                         |   |   |
+    |----------------------------|----------------|----------------------------------------------------------|---------------------------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|
+    | SRR13615825__k127_409025_2 | 2              | ['PF09847.13', 'PF02659.19']                             | [0.008249, 1.763e-13]                       | [13.46, 48.757]                   | ['Membrane protein of 12 TMs', 'Putative manganese efflux pump']                                                                                                                                                                     |   |   |
+    | SRR13615825__k127_453760_1 | 3              | ['PF00389.34', 'PF02826.23', 'PF03446.19']               | [1.984e-27, 2.113e-39, 2.41e-08]            | [93.686, 132.902, 32.336]         | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain', 'NAD binding domain of 6-phosphogluconate dehydrogenase']                                   |   |   |
+    | SRR13615825__k127_295655_1 | 2              | ['PF00389.34', 'PF02826.23']                             | [3.456e-24, 7.794e-21]                      | [83.195, 72.421]                  | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain']                                                                                             |   |   |
+    | SRR13615825__k127_218710_3 | 1              | ['PF00389.34']                                           | [1.559e-11]                                 | [42.235]                          | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain']                                                                                                                                                                  |   |   |
+    | SRR13615825__k127_272080_1 | 4              | ['PF00389.34', 'PF02826.23', 'PF03720.19', 'PF13478.10'] | [4.154e-06, 2.035e-41, 0.005561, 0.0005575] | [24.673, 139.471, 15.248, 18.593] | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain', 'UDP-glucose/GDP-mannose dehydrogenase family, UDP binding domain', 'XdhC Rossmann domain'] |   |   |
+
 
 * From **reformat_pyhmmsearch** with **-b/--best_hits_only**:
 
-    | id_protein                 | id         | evalue    | score   |
-    |----------------------------|------------|-----------|---------|
-    | SRR13615825__k127_453760_1 | PF02826.23 | 2.113e-39 | 132.902 |
-    | SRR13615825__k127_295655_1 | PF00389.34 | 3.456e-24 | 83.195  |
-    | SRR13615825__k127_218710_3 | PF00389.34 | 1.559e-11 | 42.235  |
-    | SRR13615825__k127_272080_1 | PF02826.23 | 2.035e-41 | 139.471 |
-    | SRR13615825__k127_297426_1 | PF02826.23 | 6.392e-51 | 170.426 |
-
+    | id_protein                 | id         | evalue    | score    | description                                                       |
+    |----------------------------|------------|-----------|----------|-------------------------------------------------------------------|
+    | SRR13615825__k127_409025_2 | PF02659.19 | 1.763e-13 | 48.757   | Putative manganese efflux pump                                    |
+    | SRR13615825__k127_453760_1 | PF02826.23 | 2.113e-39 | 132.902  | D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain |
+    | SRR13615825__k127_295655_1 | PF00389.34 | 3.456e-24 | 83.195   | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain   |
+    | SRR13615825__k127_218710_3 | PF00389.34 | 1.559e-11 | 42.235   | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain   |
+    | SRR13615825__k127_272080_1 | PF02826.23 | 2.035e-41 | 139.471  | D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain |
 
 #### If you use this tool, please cite the following sources: 
 
