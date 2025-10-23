@@ -55,7 +55,7 @@ def main(args=None):
         for line in tqdm(f_input, desc="Reading PyHMMSearch"):
             line = line.strip()
             if line:
-                id_protein, id_hmm, threshold, score, bias, best_domain_score, best_domain_bias, evalue = line.split("\t")
+                id_protein, id_hmm, threshold, score, bias, best_domain_score, best_domain_bias, evalue, description = line.split("\t")
                 score = float(score)
                 evalue = float(evalue)
                 update = True
@@ -68,6 +68,7 @@ def main(args=None):
                     # output[id_protein]["name"] = definition
                     output[id_protein]["evalue"] = evalue
                     output[id_protein]["score"] = score
+                    output[id_protein]["description"] = description
         df_output = pd.DataFrame(output).T
         if df_output.empty:
             df_output = pd.Dataframe(columns=["id", "evalue", "score"])
@@ -77,15 +78,16 @@ def main(args=None):
             for line in tqdm(f_input, desc="Reading PyHMMSearch"):
                 line = line.strip()
                 if line:
-                    id_protein, id_hmm, threshold, score, bias, best_domain_score, best_domain_bias, evalue = line.split("\t")
+                    id_protein, id_hmm, threshold, score, bias, best_domain_score, best_domain_bias, evalue, description = line.split("\t")
                     output[id_protein]["ids"].append(id_hmm)
                     # output[id_protein]["names"].append(definition)
                     output[id_protein]["evalues"].append(float(evalue))
                     output[id_protein]["scores"].append(float(score))
+                    output[id_protein]["descriptions"].append(description)
             df_output = pd.DataFrame(output).T
             df_output.insert(0, "number_of_hits", df_output["ids"].map(len))
         except KeyError:
-            df_output = pd.DataFrame(columns=["number_of_hits", "ids", "evalues", "scores"])
+            df_output = pd.DataFrame(columns=["number_of_hits", "ids", "evalues", "scores", "descriptions"])
     df_output.index.name = "id_protein"
 
     if opts.format == "pickle":
