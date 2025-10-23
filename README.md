@@ -130,34 +130,33 @@ https://github.com/jolespin/pyhmmsearch
 
 * From **pyhmmsearch**:
 
-    | id_protein                 | id_hmm     | threshold | score | bias   | best_domain-score | best_domain-bias | e-value description                                             |
-    |----------------------------|------------|-----------|-------|--------|-------------------|------------------|-----------------------------------------------------------------|
-    | SRR13615825__k127_409025_2 | PF09847.13 | 13.460    | 0.609 | 13.226 | 0.609             | 8.249e-03        | Membrane protein of 12 TMs                                      |
-    | SRR13615825__k127_453760_1 | PF00389.34 | 93.686    | 6.702 | 89.856 | 6.702             | 1.984e-27        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
-    | SRR13615825__k127_295655_1 | PF00389.34 | 83.195    | 0.005 | 83.167 | 0.005             | 3.456e-24        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
-    | SRR13615825__k127_218710_3 | PF00389.34 | 42.235    | 0.004 | 42.073 | 0.004             | 1.559e-11        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
-    | SRR13615825__k127_272080_1 | PF00389.34 | 24.673    | 0.000 | 22.067 | 0.000             | 4.154e-06        | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
+    | id_protein | id_hmm | threshold | score | bias | best_domain-score | best_domain-bias | e-value | description |
+    |------------|--------|-----------|-------|------|-------------------|------------------|---------|-------------|
+    | SRR13615825__k127_409025_2 | PF09847.13 |  | 13.46 | 0.609 | 13.226 | 0.609 | 0.008249 | Membrane protein of 12 TMs |
+    | SRR13615825__k127_453760_1 | PF00389.34 |  | 93.686 | 6.702 | 89.856 | 6.702 | 1.9839999999999998e-27 | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
+    | SRR13615825__k127_295655_1 | PF00389.34 |  | 83.195 | 0.005 | 83.167 | 0.005 | 3.456e-24 | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
+    | SRR13615825__k127_218710_3 | PF00389.34 |  | 42.235 | 0.004 | 42.073 | 0.004 | 1.559e-11 | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
+    | SRR13615825__k127_272080_1 | PF00389.34 |  | 24.673 | 0.0 | 22.067 | 0.0 | 4.154e-06 | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain |
 
 * From **reformat_pyhmmsearch**:
 
-    | id_protein                 | number_of_hits | ids                                                      | evalues                                     | scores                            | descriptions                                                                                                                                                                                                                         |   |   |
-    |----------------------------|----------------|----------------------------------------------------------|---------------------------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|
-    | SRR13615825__k127_409025_2 | 2              | ['PF09847.13', 'PF02659.19']                             | [0.008249, 1.763e-13]                       | [13.46, 48.757]                   | ['Membrane protein of 12 TMs', 'Putative manganese efflux pump']                                                                                                                                                                     |   |   |
-    | SRR13615825__k127_453760_1 | 3              | ['PF00389.34', 'PF02826.23', 'PF03446.19']               | [1.984e-27, 2.113e-39, 2.41e-08]            | [93.686, 132.902, 32.336]         | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain', 'NAD binding domain of 6-phosphogluconate dehydrogenase']                                   |   |   |
-    | SRR13615825__k127_295655_1 | 2              | ['PF00389.34', 'PF02826.23']                             | [3.456e-24, 7.794e-21]                      | [83.195, 72.421]                  | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain']                                                                                             |   |   |
-    | SRR13615825__k127_218710_3 | 1              | ['PF00389.34']                                           | [1.559e-11]                                 | [42.235]                          | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain']                                                                                                                                                                  |   |   |
-    | SRR13615825__k127_272080_1 | 4              | ['PF00389.34', 'PF02826.23', 'PF03720.19', 'PF13478.10'] | [4.154e-06, 2.035e-41, 0.005561, 0.0005575] | [24.673, 139.471, 15.248, 18.593] | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain', 'UDP-glucose/GDP-mannose dehydrogenase family, UDP binding domain', 'XdhC Rossmann domain'] |   |   |
-
+    | id_protein                 | number_of_hits | ids                                                      | evalues                                     | scores                            | descriptions                                                                                                                                                                                                                         |
+    |----------------------------|----------------|----------------------------------------------------------|---------------------------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | SRR13615825__k127_409025_2 | 2              | ['PF09847.13', 'PF02659.19']                             | [0.008249, 1.763e-13]                       | [13.46, 48.757]                   | ['Membrane protein of 12 TMs', 'Putative manganese efflux pump']                                                                                                                                                                     |
+    | SRR13615825__k127_453760_1 | 3              | ['PF00389.34', 'PF02826.23', 'PF03446.19']               | [1.984e-27, 2.113e-39, 2.41e-08]            | [93.686, 132.902, 32.336]         | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain', 'NAD binding domain of 6-phosphogluconate dehydrogenase']                                   |
+    | SRR13615825__k127_295655_1 | 2              | ['PF00389.34', 'PF02826.23']                             | [3.456e-24, 7.794e-21]                      | [83.195, 72.421]                  | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain']                                                                                             |
+    | SRR13615825__k127_218710_3 | 1              | ['PF00389.34']                                           | [1.559e-11]                                 | [42.235]                          | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain']                                                                                                                                                                  |
+    | SRR13615825__k127_272080_1 | 4              | ['PF00389.34', 'PF02826.23', 'PF03720.19', 'PF13478.10'] | [4.154e-06, 2.035e-41, 0.005561, 0.0005575] | [24.673, 139.471, 15.248, 18.593] | ['D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain', 'D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain', 'UDP-glucose/GDP-mannose dehydrogenase family, UDP binding domain', 'XdhC Rossmann domain'] |
 
 * From **reformat_pyhmmsearch** with **-b/--best_hits_only**:
 
-    | id_protein                 | id         | evalue    | score    | description                                                       |
-    |----------------------------|------------|-----------|----------|-------------------------------------------------------------------|
-    | SRR13615825__k127_409025_2 | PF02659.19 | 1.763e-13 | 48.757   | Putative manganese efflux pump                                    |
-    | SRR13615825__k127_453760_1 | PF02826.23 | 2.113e-39 | 132.902  | D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain |
-    | SRR13615825__k127_295655_1 | PF00389.34 | 3.456e-24 | 83.195   | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain   |
-    | SRR13615825__k127_218710_3 | PF00389.34 | 1.559e-11 | 42.235   | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain   |
-    | SRR13615825__k127_272080_1 | PF02826.23 | 2.035e-41 | 139.471  | D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain |
+    | id_protein                 | id         | evalue                 | score   | description                                                       |
+    |----------------------------|------------|------------------------|---------|-------------------------------------------------------------------|
+    | SRR13615825__k127_409025_2 | PF02659.19 | 1.763e-13              | 48.757  | Putative manganese efflux pump                                    |
+    | SRR13615825__k127_453760_1 | PF02826.23 | 2.113e-39              | 132.902 | D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain |
+    | SRR13615825__k127_295655_1 | PF00389.34 | 3.456e-24              | 83.195  | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain   |
+    | SRR13615825__k127_218710_3 | PF00389.34 | 1.559e-11              | 42.235  | D-isomer specific 2-hydroxyacid dehydrogenase, catalytic domain   |
+    | SRR13615825__k127_272080_1 | PF02826.23 | 2.0349999999999998e-41 | 139.471 | D-isomer specific 2-hydroxyacid dehydrogenase, NAD binding domain |
 
 #### If you use this tool, please cite the following sources: 
 
